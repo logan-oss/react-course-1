@@ -1,5 +1,9 @@
 # React course 1
 
+## Name
+
+- PORAYKO Logan
+
 ## Getting started
 
 - Fork project to your personal repo
