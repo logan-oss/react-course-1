@@ -32,21 +32,21 @@ export default function Card(props: any) {
     }
 
     function onDrag(e : any){
-        /* var mouse: any = window.event;
-        e.offsetTop = mouse.clientY; */
+        
     }
 
     function onDragStart(e : any){
-        /* e.target.style.backgroundColor = "red";
-        e.target.style.opacity = "10"; */
+        e.dataTransfer.setData("title", "props.title");
+        e.dataTrasfer.setData("text", "props.description");
     }
 
     function onDragEnter(e : any){         
     }
 
     return (
-        <div className="my-2 card" style={styles.card} draggable="true" onDrag={onDrag} onDragStart={onDragStart}>
-            <div className="d-flex justify-content-end">
+        <div className="my-2 card" id={props.id} style={styles.card} draggable="true" onDrag={onDrag} onDragStart={onDragStart}>
+            <div className="d-flex justify-content-between">
+                <label className="ms-2 mt-1" style={{color: 'black',fontSize: "20px"}}>{props.title}</label>
                 <div className="btn-group dropend ">
             </div>
                 <button type="button" className="btn" onClick={changeDropDisplay} onBlur={changeDropDisplay} aria-expanded="false">
@@ -59,7 +59,7 @@ export default function Card(props: any) {
                 </ul>
             </div>
             <div className="d-flex">
-                <textarea className="form-control" style={{height: "100px"}}></textarea>
+                <textarea className="form-control card_text" style={{height: "100px"}}>{props.description}</textarea>
             </div>
         </div>
     )

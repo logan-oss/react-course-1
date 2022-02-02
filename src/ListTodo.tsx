@@ -40,11 +40,14 @@ export default function ListTodo(props: any) {
     }
 
     function addCards(){
-        setCards([...cards,<Card suppr={suppr}></Card>])
+        setCards([...cards,<Card id={cards.length} suppr={suppr} title="title" description="dqzdqzd"></Card>])
     }
     function onDrop(e : any){
         e.preventDefault();
-        console.log(e.target);
+        if (e.target.classList.contains("card")) {
+            console.log(e.dataTransfer.getData("id"));
+        }
+        
         
     }
 
