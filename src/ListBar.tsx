@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ListTodo from "./ListTodo";
 
 export default function ListBar(props: any) {
     const [toggleDisplay, setToggleDisplay] = useState(false);
@@ -20,18 +21,16 @@ export default function ListBar(props: any) {
         setToggleDisplay(!toggleDisplay);
     }
 
-    function keyPressAddList(event: { key: any; }){
-        if(event.key === "Enter")
-            addList();        
+    function keyPressAddList(e: any) {
+        if (e.key == "Enter")
+            addList();
     }
 
-    function addList(){
+    function addList() {
+        props.listTodo.push();
+        props.setListTodo(new Array(...props.listTodo, input_listName));
         changeDropDisplay();
-        console.log(input_listName);
-        
-        props.listTodo.push("test")
-        
-        //props.setListTodo();
+        setName("");
     }
 
     return (
@@ -49,7 +48,7 @@ export default function ListBar(props: any) {
                                 <li>
                                     <div className="dropdown-item">
                                         <div className="input-group">
-                                            <input type="text" value={input_listName} className="form-control" onKeyPress={keyPressAddList} placeholder="Nom de la liste" />
+                                            <input type="text" value={input_listName} className="form-control" onKeyPress={keyPressAddList} onChange={e => setName(e.target.value)} placeholder="Nom de la liste" />
                                             <button className="btn btn-primary" type="button" onClick={addList}>Ajouter</button>
                                         </div>
                                     </div>
