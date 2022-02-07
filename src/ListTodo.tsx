@@ -2,8 +2,9 @@ import { stringify } from "querystring";
 import { useState } from "react";
 import { FaPlusCircle, FaTrashAlt } from 'react-icons/fa';
 import Card from './Card';
+import { ListTodoPropsType } from "./Interface/ListTodoPropsType";
 
-export default function ListTodo(props: any) {
+export default function ListTodo(props: ListTodoPropsType) {
 
     const [cards, setCards] = useState(new Array());
 
@@ -20,23 +21,25 @@ export default function ListTodo(props: any) {
         }
     }
 
-    function onDragEnter(e : any){
-        if (e.target.classList.contains("todoList")) {
-            e.target.style.backgroundColor = "blue";      
+    function onDragEnter(e : React.DragEvent<HTMLDivElement>){
+        let target : HTMLDivElement = (e.target as HTMLDivElement);
+        if (target.classList.contains("todoList")) {
+            target.style.backgroundColor = "blue";      
         }
     }
 
-    function allowDrop(ev: any) {
+    function allowDrop(ev: React.DragEvent<HTMLDivElement>) {
         ev.preventDefault();
       }
 
-    function onDragLeave(e: any){
-        if (e.target.classList.contains("todoList")) {
-            e.target.style.backgroundColor = "#8A42DC";    
+    function onDragLeave(e: React.DragEvent<HTMLDivElement>){
+        let target : HTMLDivElement = (e.target as HTMLDivElement);
+        if (target.classList.contains("todoList")) {
+            target.style.backgroundColor = "#8A42DC";    
         }
     }
 
-    function suppr(id: any){
+    function suppr(id: String){
         setCards(cards.filter(e => e.id != id));
     }
 
@@ -61,8 +64,18 @@ export default function ListTodo(props: any) {
         setCards(card2);
     }
 
+    function setComplete(id: String, complete : boolean) {
+        let card2 = cards.map(e => {
+            if (e.id == id) {
+                e.complete = complete;
+            }
+            return e;
+        });
+        setCards(card2);
+    }
+
     function addCards(){
-        setCards([...cards, {"id" : generateId(), "title" : "title", "text": ""}])
+        setCards([...cards, {"id" : generateId(), "title" : "title", "text": "","complete": false}])
     }
 
     function generateId(){
@@ -70,12 +83,12 @@ export default function ListTodo(props: any) {
     }
 
 
-    function onDrop(e : any){
+    function onDrop(e: React.DragEvent<HTMLDivElement>){
         e.preventDefault();
         if (e.dataTransfer.getData("card")) {
             let card = JSON.parse(e.dataTransfer.getData("card"));
-            setCards([...cards, {"id" : generateId(), "title" : card.title, "text": card.text}]);
-            e.target.style.backgroundColor = "#8A42DC";
+            setCards([...cards, {"id" : generateId(), "title" : card.title, "text": card.text, "complete" : card.complete}]);
+            (e.target as HTMLDivElement).style.backgroundColor = "#8A42DC";
         }
     }
 
@@ -96,7 +109,7 @@ export default function ListTodo(props: any) {
                 {
                     cards.map((card, index) => {
                         
-                        return <Card id={card.id} suppr={suppr} setTitle={setTitle} setText={setText} title={card.title} text={card.text}></Card>;
+                        return <Card id={card.id} suppr={suppr} setTitle={setTitle} setText={setText} setComplete={setComplete} title={card.title} text={card.text} complete={card.complete}></Card>;
                     })
                 }
             </div>

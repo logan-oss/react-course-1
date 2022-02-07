@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ListTodo from "./ListTodo";
+import { ListBarPropsType } from "./Interface/ListBarPropsType";
 
-export default function ListBar(props: any) {
+export default function ListBar(props: ListBarPropsType) {
     const [toggleDisplay, setToggleDisplay] = useState(false);
     const [input_listName, setName] = useState("");
 
@@ -21,14 +22,14 @@ export default function ListBar(props: any) {
         setToggleDisplay(!toggleDisplay);
     }
 
-    function keyPressAddList(e: any) {
+    function keyPressAddList(e: React.KeyboardEvent) {
         if (e.key == "Enter")
             addList();
     }
 
     function addList() {
         props.listTodo.push();
-        props.setListTodo(new Array(...props.listTodo, input_listName));
+        props.setListTodo(new Array<String>(...props.listTodo, input_listName));
         changeDropDisplay();
         setName("");
     }
